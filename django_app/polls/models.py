@@ -15,6 +15,10 @@ class Question(models.Model):
         # 현재 시간의 1일 전시간 부터 현재 저장된 시간 값(pub_date) 까지의 데이터 조회
         return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
 
+    was_published_recently.admin_order_field = 'pub_date'
+    was_published_recently.boolean = True
+    was_published_recently.short_description = 'Published recently?'
+
 
 class Choice(models.Model):
     question = models.ForeignKey(
