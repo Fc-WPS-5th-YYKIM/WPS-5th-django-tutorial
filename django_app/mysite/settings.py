@@ -24,7 +24,7 @@ SECRET_KEY = 'm%)hz0n*ys%_hukc2ndq@@+xpq4%(%4srhlezdfe684um_bt8a'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+# 오류 메시지 출력 주체를 선택한다 True의 경우 장고 웹 프레임웍, False일 경우 브라우저
 ALLOWED_HOSTS = []
 
 
