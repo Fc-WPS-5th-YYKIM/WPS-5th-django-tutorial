@@ -12,7 +12,7 @@ class Question(models.Model):
         return self.question_text
 
     def was_published_recently(self):
-        #현재 시간의 1일 전시간 부터 현재 저장된 시간 값(pub_date) 까지의 데이터 조회
+        # 현재 시간의 1일 전시간 부터 현재 저장된 시간 값(pub_date) 까지의 데이터 조회
         return self.pub_date >= timezone.now() - datetime.timedelta(days=1)
 
 
