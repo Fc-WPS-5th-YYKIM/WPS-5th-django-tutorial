@@ -3,7 +3,7 @@ from django.conf.urls import url
 from . import views
 
 # from . ~ 은 from polls import views와 같은 의미
-
+app_name = 'polls'
 urlpatterns = [
     # ex: /polls/
     url(r'^$', views.index, name='index'),
