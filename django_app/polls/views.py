@@ -1,8 +1,11 @@
+from django.contrib import messages
 from django.http import Http404
-from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
+from django.urls import reverse
 
-from .models import Question
+from .models import Question, Choice
 
 
 def index(request):
@@ -46,4 +49,31 @@ def results(request, question_id):
 
 
 def vote(request, question_id):
-    return HttpResponse("You're voting on qeustion %s" % question_id)
+    if request.method == 'POST':
+        # 전달받은 데이터중 'choice'기에 해당하는 값을
+        # HttpResponse에 적절히 돌려준다
+        data = request.POST
+        try:
+            choice_id = data['choice']
+
+            #choice키에 해당하는 Choice 인스턴스의 vote값을 1 증가 시키고
+            # 데이터 베이스에 변경사항을 반영
+            choice = Choice.objects.get(id=choice_id)
+            choice.votes += 1
+            choice.save()
+            # return HttpResponse('Choice is %s' % choice_id)
+
+            # 이후 results페이지로 redirect
+            return redirect('polls:results', question_id)
+        except (KeyError, Choice.DoesNotExist):
+            # message 프레임 워크를 사용하여 에러메시지 출력
+            # request에 메시지를 저장해놓고 해당 request에 대한
+            # response를 돌려줄 때 메시지를 담아 보낸다
+            messages.add_message(
+                request,
+                messages.ERROR,
+                "You didn't select a choice",
+            )
+            return redirect('polls:detail', question_id)
+    else:
+        return HttpResponse("You're voting")
